@@ -11,13 +11,27 @@ y_size = 650
 screen = pygame.display.set_mode((x_size, y_size))
 screen.fill((225, 225, 225))
 
+
 def background (a_size, b_size):
-    rect(screen, (0, 70, 100), (0, b_size // 2, a_size, b_size))
-    rect(screen, (255, 150, 100), (0, b_size // 2 - b_size // 10, a_size, b_size // 10))
-    rect(screen, (255, 100, 150), (0, b_size // 2 - 2 *  b_size // 10 - b_size // 20, a_size, b_size // 10 + b_size // 20))
-    rect(screen, (200, 100, 225), (0, b_size // 10 + b_size // 20, a_size, b_size // 10 + 2))
-    rect(screen, (150, 100, 225), (0, b_size // 10, a_size, b_size // 20))
-    rect(screen, (50, 0, 150), (0, 0, a_size, b_size // 10))
+    colors = [
+        (0, 70, 100),
+        (255, 150, 100),
+        (255, 100, 150),
+        (200, 100, 225),
+        (150, 100, 225),
+        (50, 0, 150)
+    ]
+    y_cords=[
+        (b_size // 2, b_size),
+        (b_size // 2 - b_size // 10, b_size // 10),
+        (b_size // 2 - 2 *  b_size // 10 - b_size // 20, b_size // 10 + b_size // 20),
+        (b_size // 10 + b_size // 20, b_size // 10 + 2),
+        (b_size // 10, b_size // 20),
+        (0, b_size // 10)
+        ]
+    for color, (y, height) in zip(colors, y_cords):
+        rect(screen, color, (0, y, a_size, height))
+    
 
 def seagull_position_color (y):
     if y < y_size // 10:
@@ -312,3 +326,4 @@ while not finished:
             finished = True
 
 pygame.quit()
+
