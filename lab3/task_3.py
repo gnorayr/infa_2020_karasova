@@ -1,5 +1,5 @@
 import math as m
-import random as r
+from random import randint
 import pygame
 from pygame.draw import *
 
@@ -9,7 +9,7 @@ x_size = 500
 y_size = 650
 
 screen = pygame.display.set_mode((x_size, y_size))
-screen.fill((225, 225, 225))
+screen.fill((0,0,0))
 
 
 def background (a_size, b_size):
@@ -21,7 +21,7 @@ def background (a_size, b_size):
         (150, 100, 225),
         (50, 0, 150)
     ]
-    y_cords=[
+    y_coords=[
         (b_size // 2, b_size),
         (b_size // 2 - b_size // 10, b_size // 10),
         (b_size // 2 - 2 *  b_size // 10 - b_size // 20, b_size // 10 + b_size // 20),
@@ -29,30 +29,29 @@ def background (a_size, b_size):
         (b_size // 10, b_size // 20),
         (0, b_size // 10)
         ]
-    for color, (y, height) in zip(colors, y_cords):
+    for color, (y, height) in zip(colors, y_coords):
         rect(screen, color, (0, y, a_size, height))
     
 
-def seagull_position_color (y):
-    if y < y_size // 10:
-        return (50, 0, 150)
-    if y > y_size // 10 and y < y_size // 10 + y_size // 20:
-        return (150, 100, 225)
-    if y > y_size // 10 + y_size // 20 and y < y_size // 5 + y_size // 20:
-        return (200, 100, 225)
-    if y > y_size // 5 + y_size // 20 and y < 2 * y_size // 5:
-        return (255, 100, 150)
-    if y > y_size // 2 - y_size // 10:
-        return (255, 150, 100)
 
 def seagull (x, y, r, angle):
+    """
+        background small seagulls
+        2*r - wingspan
+        x, y - coordinates of top left corner of the rectangle that has horizontal
+        and vertical sides and includes the seagull
+        
+
+
+
+
+
+                         """
     surf = pygame.Surface((2 * r, int (r * (1 - 3 ** 0.5 / 2))), pygame.SRCALPHA)
-    surf.fill(seagull_position_color (y))
-    surf.set_alpha(0)
     arc(surf, (255, 255, 255), (- r // 2, 0, r * 2, r * 2), m.pi / 3, 2 * m.pi / 3, 2)
     arc(surf, (255, 255, 255), (r // 2, 0, r * 2, r * 2), m.pi / 3, 2 * m.pi / 3, 2)
     surf = pygame.transform.rotate(surf, angle)
-    screen.blit(surf, (x - r, y - int (r * (1 - 3 ** 0.5 / 2))))
+    screen.blit(surf, (x, y))
 
 
 def fish (x, y, size):
@@ -267,45 +266,46 @@ seagull_size_big = (x_size * y_size) // 4600
 seagull_size_medium = 2 * seagull_size_big // 3
 seagull_size_small = seagull_size_medium // 2
 
-seagull (x_size // 6, y_size // 2 - y_size // 5, seagull_size_big, -15)
-seagull (2 * x_size // 3, y_size // 4 - y_size // 15, seagull_size_big, 0)
-seagull (x_size // 4, y_size // 30, seagull_size_big, 15)
+
+seagull (x_size // 8, 3 * y_size // 10, seagull_size_big, -15)
+seagull (x_size // 2, 3 * y_size // 16, seagull_size_big, 0)
+seagull (x_size // 9, y_size // 30, seagull_size_big, 15)
 
 
-a = r.randint (x_size // 2, x_size // 2 + x_size // 8)
-b = r.randint (y_size // 20 + y_size // 40, y_size // 10 - y_size // 40)
+a = randint (x_size // 2, 5 * x_size // 8)
+b = randint (y_size // 20 + y_size // 40, y_size // 10 - y_size // 40)
 seagull (a, b, seagull_size_small, - 15)
 
-a = r.randint (x_size // 2 + x_size // 8, x_size // 2 + x_size // 4)
-b = r.randint (y_size // 20 + y_size // 40, y_size // 10 - y_size // 40)
+a = randint (x_size // 2 + x_size // 8, x_size // 2 + x_size // 4)
+b = randint (y_size // 20 + y_size // 40, y_size // 10 - y_size // 40)
 seagull (a, b, seagull_size_small, - 15)
 
-a = r.randint (x_size // 2, x_size // 2 + x_size // 8)
-b = r.randint (y_size // 10 + y_size // 40, y_size // 20 + y_size // 10 - y_size // 40)
+a = randint (x_size // 2, x_size // 2 + x_size // 8)
+b = randint (y_size // 10 + y_size // 40, y_size // 20 + y_size // 10 - y_size // 40)
 seagull (a, b, seagull_size_small, - 15)
 
-a = r.randint (x_size // 2 + x_size // 8, x_size // 2 + x_size // 4)
-b = r.randint (y_size // 10 + y_size // 40, y_size // 20 + y_size // 10 - y_size // 40)
+a = randint (x_size // 2 + x_size // 8, x_size // 2 + x_size // 4)
+b = randint (y_size // 10 + y_size // 40, y_size // 20 + y_size // 10 - y_size // 40)
 seagull (a, b, seagull_size_small, - 15)
 
 for i in range (3):
-    a = r.randint (x_size // 2 - x_size // 6, x_size // 2 + x_size // 4)
-    b = r.randint (y_size // 2 - y_size // 5 + y_size // 40, y_size // 2 - y_size // 10 - y_size // 40)
+    a = randint (x_size // 2 - x_size // 6, x_size // 2 + x_size // 4)
+    b = randint (y_size // 2 - y_size // 5 + y_size // 40, y_size // 2 - y_size // 10 - y_size // 40)
     seagull (a, b, seagull_size_small, 0)
 
 for i in range (3):
-    a = r.randint (x_size // 2 - x_size // 3, x_size // 2 + x_size // 5)
-    b = r.randint (y_size // 2 - y_size // 4 + y_size // 40, y_size // 2 - y_size // 5 - y_size // 40)
+    a = randint (x_size // 2 - x_size // 3, x_size // 2 + x_size // 5)
+    b = randint (y_size // 2 - y_size // 4 + y_size // 40, y_size // 2 - y_size // 5 - y_size // 40)
     seagull (a, b, seagull_size_small, 15)
     
 for i in range (2):
-    a = r.randint (x_size // 2 - x_size // 3, x_size // 2 + x_size // 5)
-    b = r.randint (y_size // 5 + y_size // 40, y_size // 2 - y_size // 4 - y_size // 40)
+    a = randint (x_size // 2 - x_size // 3, x_size // 2 + x_size // 5)
+    b = randint (y_size // 5 + y_size // 40, y_size // 2 - y_size // 4 - y_size // 40)
     seagull (a, b, seagull_size_small, 15)
 
 for i in range (4):
-    a = r.randint (x_size // 2 + x_size // 6, x_size - seagull_size_medium)
-    b = r.randint (y_size // 2 - 3 * y_size // 10, y_size // 2 - y_size // 10)
+    a = randint (x_size // 2 + x_size // 6, x_size - seagull_size_medium)
+    b = randint (y_size // 2 - 3 * y_size // 10, y_size // 2 - y_size // 10)
     seagull (a, b, seagull_size_medium, 0)
 
 big_bird (x_size // 4, y_size // 2 + y_size // 4, (x_size * y_size) // 2700, 'right')
@@ -326,4 +326,3 @@ while not finished:
             finished = True
 
 pygame.quit()
-
