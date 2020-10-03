@@ -54,22 +54,22 @@ def seagull (x, y, r, angle):
 
 def fish (x, y, size):
 
-    polygon(screen, (200, 100, 50),[(x - size // 3, y - size // 3), (x + size // 5, y - size // 3), (x, y)], 0)
-    aalines(screen, (0, 0, 0), True,
-            [(x - size // 3, y - size // 3), (x + size // 5, y - size // 3), (x, y)])
+    polygon(screen, (200, 100, 50),[(x - size // 3, y - size // 3),
+                                    (x + size // 5, y - size // 3), (x, y)])
+    aalines(screen, (0, 0, 0), True, [(x - size // 3, y - size // 3),
+                                      (x + size // 5, y - size // 3), (x, y)])
     
 
-    polygon(screen,
-            (200, 100, 50),
-            [(x, y), (x - 3 * size // 8, y + size // 4), (x - size // 2 - size // 8, y + size // 4)],
-            0)
-    aalines(screen, (0, 0, 0), True,
-            [(x, y), (x - 3 * size // 8, y + size // 4), (x - size // 2 - size // 8, y + size // 4)])
+    polygon(screen, (200, 100, 50), [(x, y), (x - 3 * size // 8, y + size // 4),
+                                     (x - size // 2 - size // 8, y + size // 4)])
+    aalines(screen, (0, 0, 0), True, [(x, y), (x - 3 * size // 8, y + size // 4),
+                                      (x - size // 2 - size // 8, y + size // 4)])
    
 
-    polygon(screen, (200, 100, 50), [(x - size // 8, y), (x, y + size // 3), (x + size // 2, y + size // 3)], 0)
-    aalines(screen, (0, 0, 0), True,
-            [(x - size // 8, y), (x, y + size // 3), (x + size // 2, y + size // 3)])
+    polygon(screen, (200, 100, 50), [(x - size // 8, y), (x, y + size // 3),
+                                     (x + size // 2, y + size // 3)])
+    aalines(screen, (0, 0, 0), True, [(x - size // 8, y), (x, y + size // 3),
+                                      (x + size // 2, y + size // 3)])
     
 
     ellipse(screen, (0, 100, 100), (x - size // 2, y - size // 4, size, size // 2))
