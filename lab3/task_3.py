@@ -53,7 +53,12 @@ def seagull (x, y, r, angle):
 
 
 def fish (x, y, size):
-
+    """
+    x, y - coordinates of the centre regardtless of the tail
+    size - double the vertical size of the body
+    r_eye - radius of eye
+    """
+    #fins
     polygon(screen, (200, 100, 50),[(x - size // 3, y - size // 3),
                                     (x + size // 5, y - size // 3), (x, y)])
     aalines(screen, (0, 0, 0), True, [(x - size // 3, y - size // 3),
@@ -71,14 +76,15 @@ def fish (x, y, size):
     aalines(screen, (0, 0, 0), True, [(x - size // 8, y), (x, y + size // 3),
                                       (x + size // 2, y + size // 3)])
     
-
+   #body
     ellipse(screen, (0, 100, 100), (x - size // 2, y - size // 4, size, size // 2))
     ellipse(screen, (0, 0, 0), (x - size // 2, y - size // 4, size, size // 2), 1)
     x01 = x + size // 4
     x02 = x - size // 4
     y01 = y + size // 5
     y02 = y - size // 5
-    polygon(screen, (0, 100, 100),[(x01, y01), (x + 3 * size // 4, y), (x01, y02)], 0)
+    polygon(screen, (0, 100, 100),[(x01, y01), (x + 3 * size // 4, y),
+                                   (x01, y02)], 0)
     line(screen, (0, 0, 0), (x01, y01), (x + 3 * size // 4, y), 1)
     line(screen, (0, 0, 0), (x01, y02), (x + 3 * size // 4, y), 1)
 
@@ -91,10 +97,11 @@ def fish (x, y, size):
     tail_height = size // 7
     polygon(screen,
             (0, 100, 100),
-            [(x_front_tail, y), (x_front_tail - tail_width, y - tail_height),(x_front_tail - tail_width, y + tail_height)],
-            0)
+            [(x_front_tail, y), (x_front_tail - tail_width, y - tail_height),
+             (x_front_tail - tail_width, y + tail_height)],0)
     aalines(screen, (0, 0, 0), True,
-            [(x_front_tail, y), (x_front_tail - tail_width, y - tail_height), (x_front_tail - tail_width, y + tail_height)])
+            [(x_front_tail, y), (x_front_tail - tail_width, y - tail_height),
+             (x_front_tail - tail_width, y + tail_height)])
     
     r_eye = size // 15
     ellipse(screen, (0, 0, 255), (x + size // 4 - r_eye, y - r_eye, r_eye * 2, r_eye * 2))
