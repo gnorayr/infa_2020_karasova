@@ -115,9 +115,12 @@ def big_bird (x, y, size, right_or_left):
     neck_size = torso_size // 2
     y_neck = y_torso - torso_size // 10
     if right_or_left == 'right':
-        x_neck = x_torso + torso_size // 2
+        rl = 1
     else:
-        x_neck = x_torso - torso_size // 2
+        rl = -1
+    
+    x_neck = x_torso + rl * torso_size // 2
+    
     
     head_size_x = size // 3
     head_size_y = int (2 * head_size_x // 3)
