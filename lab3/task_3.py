@@ -16,6 +16,7 @@ screen.fill((255, 100, 150))
 
 
 def background():
+    """draws the sky and the sea """
     colors = [
         (0, 70, 100),
         (255, 150, 100),
@@ -53,192 +54,219 @@ def seagull(x, y, r, angle):
 
 def fish(x, y, size):
     """
-    x, y - coordinates of the centre regardtless of the tail
-    size - double the vertical size of the body
-    r_eye - radius of eye
+        x, y - coordinates of the centre regardtless of the tail
+        size - double the vertical size of the body
+        r_eye - radius of eye
     """
-    # fins
+    # верхний плавник
     polygon(screen, (200, 100, 50), [(x - size // 3, y - size // 3),
                                      (x + size // 5, y - size // 3), (x, y)])
     aalines(screen, (0, 0, 0), True, [(x - size // 3, y - size // 3),
                                       (x + size // 5, y - size // 3), (x, y)])
 
+    # нижний левый плавник
     polygon(screen, (200, 100, 50), [(x, y), (x - 3 * size // 8, y + size // 4),
                                      (x - size // 2 - size // 8, y + size // 4)])
     aalines(screen, (0, 0, 0), True, [(x, y), (x - 3 * size // 8, y + size // 4),
                                       (x - size // 2 - size // 8, y + size // 4)])
 
+    # нижний правый плавник
     polygon(screen, (200, 100, 50), [(x - size // 8, y), (x, y + size // 3),
                                      (x + size // 2, y + size // 3)])
     aalines(screen, (0, 0, 0), True, [(x - size // 8, y), (x, y + size // 3),
                                       (x + size // 2, y + size // 3)])
 
-    # body
+    # эллипс - основное тело рыбы
     ellipse(screen, (0, 100, 100), (x - size // 2, y - size // 4, size, size // 2))
+
+    # эллипс - контур основного тела рыбы
     ellipse(screen, (0, 0, 0), (x - size // 2, y - size // 4, size, size // 2), 1)
+
     x01 = x + size // 4
     x02 = x - size // 4
     y01 = y + size // 5
     y02 = y - size // 5
+
+    # треугольник - перед рыбы
     polygon(screen, (0, 100, 100), [(x01, y01), (x + 3 * size // 4, y),
                                     (x01, y02)], 0)
     line(screen, (0, 0, 0), (x01, y01), (x + 3 * size // 4, y), 1)
     line(screen, (0, 0, 0), (x01, y02), (x + 3 * size // 4, y), 1)
 
-    polygon(screen, (0, 100, 100), [(x02, y01), (x - 3 * size // 4, y), (x02, y02)], 0)
+    # треугольник - зад рыбы
+    polygon(screen, (0, 100, 100), [(x02, y01), (x - 3 * size // 4, y),
+                                    (x02, y02)], 0)
     line(screen, (0, 0, 0), (x02, y01), (x - 3 * size // 4, y), 1)
     line(screen, (0, 0, 0), (x02, y02), (x - 3 * size // 4, y), 1)
 
+    # треугольник - хвост рыбы
     x_front_tail = x - 3 * size // 4
     tail_width = size // 5
     tail_height = size // 7
-    polygon(screen,
-            (0, 100, 100),
-            [(x_front_tail, y), (x_front_tail - tail_width, y - tail_height),
-             (x_front_tail - tail_width, y + tail_height)], 0)
-    aalines(screen, (0, 0, 0), True,
-            [(x_front_tail, y), (x_front_tail - tail_width, y - tail_height),
-             (x_front_tail - tail_width, y + tail_height)])
+    polygon(screen, (0, 100, 100), [(x_front_tail, y),
+                                    (x_front_tail - tail_width, y - tail_height),
+                                    (x_front_tail - tail_width, y + tail_height)], 0)
+    aalines(screen, (0, 0, 0), True, [(x_front_tail, y),
+                                      (x_front_tail - tail_width, y - tail_height),
+                                      (x_front_tail - tail_width, y + tail_height)])
 
+    # глаз рыбы
     r_eye = size // 15
-    ellipse(screen, (0, 0, 255), (x + size // 4 - r_eye, y - r_eye, r_eye * 2, r_eye * 2))
-    ellipse(screen, (0, 0, 0), (x + size // 4 - r_eye, y - r_eye, r_eye * 2, r_eye * 2), 1)
+    ellipse(screen, (0, 0, 255), (x + size // 4 - r_eye,
+                                  y - r_eye, r_eye * 2, r_eye * 2))
+    ellipse(screen, (0, 0, 0), (x + size // 4 - r_eye,
+                                y - r_eye, r_eye * 2, r_eye * 2), 1)
 
 
 def big_bird(x, y, size, right_or_left):
-    x_torso = x
-    y_torso = y
-    torso_size = size
+    """
+        x, y - position of the center of the bird's torso
+        size - major axis of the bird's torso
+        right_or_left - the side of where the bird is looking
+    """
 
-    neck_size = torso_size // 2
-    y_neck = y_torso - torso_size // 10
     if right_or_left == 'right':
         rl = 1
     else:
         rl = -1
 
+    # ПРОСЧИТЫВАЕМ КООРДИНАТЫ
+
+    # туловище
+    x_torso = x
+    y_torso = y
+    torso_size = size
+
+    # шея
+    neck_size = torso_size // 2
+    y_neck = y_torso - torso_size // 10
     x_neck = x_torso + rl * torso_size // 2
 
+    # голова
     head_size_x = size // 3
     head_size_y = int(2 * head_size_x // 3)
     y_head = y_neck - neck_size // 4
-
     x_head = x_neck + rl * neck_size // 2
 
-
+    # глаз
     eye_size_x = head_size_x // 5
     eye_size_y = head_size_y // 5
     y_eye = y_head - head_size_y // 6
-
     x_eye = x_head + rl * head_size_x // 4
 
-
+    # клюв. просчитываем координаты 3х точек, образующих клюв
     beak_height = head_size_y // 3
     beak_length = head_size_x
     y_beak_upper = y_head - beak_height // 2
     y_beak_lower = y_head + beak_height // 2
     y_beak_middle = y_head
-
     x_beak_right = x_head + rl * head_size_x // 4
     x_beak_left = x_beak_right + rl * beak_length
 
+    # верхняя часть ноги
     thigh_size = neck_size
     y_thigh_upper = y_torso
     x_thigh_right = x_torso + torso_size // 6
     x_thigh_left = x_torso - torso_size // 6
 
+    # нижння часть ноги
     calf_size = thigh_size // 4
     x_calf_left = x_thigh_left
     x_calf_right = x_thigh_right
     y_calf = y_thigh_upper + thigh_size - thigh_size // 8
 
+    # когти
     claw_length = calf_size
     y_claws = y_calf + calf_size
     y_upper_claw = y_claws - claw_length // 2
     y_lower_claw = y_claws + claw_length // 2
-
     x_claws_right = x_calf_right + rl * calf_size
     x_upper_and_lower_claws_right = x_claws_right + rl * int(claw_length * 3 ** 0.5 / 2)
     x_claws_left = x_calf_left + rl * calf_size
     x_upper_and_lower_claws_left = x_claws_left + rl * int(claw_length * 3 ** 0.5 / 2)
 
+    # хвост
     y_tail_front = y_torso
     y_tail_middle = y_tail_front - torso_size // 2
     y_tail_back = y_tail_front - torso_size // 5
-
     x_tail_front = x_torso - rl * torso_size // 3
     x_tail_middle = x_tail_front - rl * torso_size // 5
     x_tail_back = x_tail_front - rl * torso_size // 2
 
-
+    # крылья
     y_wings_lower = y_torso
     y_wing_front_upper = y_torso - int((torso_size // 3) * 3 ** 0.5)
-
     x_wing_front_lower = x_torso + rl * torso_size // 8
     x_wing_front_upper_right = x_wing_front_lower - rl * torso_size // 4
     x_wing_front_upper_left = x_wing_front_upper_right - 5 * rl * torso_size // 6
-
     y_wing_back_middle = y_wings_lower - 2 * torso_size // 3
     y_wing_back_upper = y_wing_back_middle - torso_size // 10
-
     x_wing_back_lower = x_torso + rl * torso_size // 4
     x_wing_back_middle = x_wing_back_lower - rl * torso_size // 4
     x_wing_back_upper = x_wing_back_middle - 3 * rl * torso_size // 4
 
+    # РИСУЕМ ВСЁ
+    polygon(screen, (255, 255, 255), [(x_tail_front, y_tail_front),
+                                      (x_tail_middle, y_tail_middle),
+                                      (x_tail_back, y_tail_back)])
+    aalines(screen, (0, 0, 0), True, [(x_tail_front, y_tail_front),
+                                      (x_tail_middle, y_tail_middle),
+                                      (x_tail_back, y_tail_back)])
+    polygon(screen, (255, 255, 255), [(x_wing_back_lower, y_wings_lower),
+                                      (x_wing_back_middle, y_wing_back_middle),
+                                      (x_wing_back_upper, y_wing_back_upper)])
+    aalines(screen, (0, 0, 0), True, [(x_wing_back_lower, y_wings_lower),
+                                      (x_wing_back_middle, y_wing_back_middle),
+                                      (x_wing_back_upper, y_wing_back_upper)])
 
-    polygon(screen, (255, 255, 255),
-            [(x_tail_front, y_tail_front), (x_tail_middle, y_tail_middle), (x_tail_back, y_tail_back)])
-    aalines(screen, (0, 0, 0), True,
-            [(x_tail_front, y_tail_front), (x_tail_middle, y_tail_middle), (x_tail_back, y_tail_back)])
+    polygon(screen, (255, 255, 255), [(x_wing_front_lower, y_wings_lower),
+                                      (x_wing_front_upper_right, y_wing_front_upper),
+                                      (x_wing_front_upper_left, y_wing_front_upper)])
+    aalines(screen, (0, 0, 0), True, [(x_wing_front_lower, y_wings_lower),
+                                      (x_wing_front_upper_right, y_wing_front_upper),
+                                      (x_wing_front_upper_left, y_wing_front_upper)])
 
-    polygon(screen, (255, 255, 255),
-            [(x_wing_back_lower, y_wings_lower), (x_wing_back_middle, y_wing_back_middle),
-             (x_wing_back_upper, y_wing_back_upper)])
-    aalines(screen, (0, 0, 0), True,
-            [(x_wing_back_lower, y_wings_lower), (x_wing_back_middle, y_wing_back_middle),
-             (x_wing_back_upper, y_wing_back_upper)])
-
-    polygon(screen, (255, 255, 255),
-            [(x_wing_front_lower, y_wings_lower), (x_wing_front_upper_right, y_wing_front_upper),
-             (x_wing_front_upper_left, y_wing_front_upper)])
-    aalines(screen, (0, 0, 0), True,
-            [(x_wing_front_lower, y_wings_lower), (x_wing_front_upper_right, y_wing_front_upper),
-             (x_wing_front_upper_left, y_wing_front_upper)])
-
-    aalines(screen, (255, 255, 0), True,
-            [(x_beak_right, y_beak_upper), (x_beak_left, y_beak_middle), (x_beak_right, y_beak_lower)])
-    polygon(screen, (255, 255, 0),
-            [(x_beak_right, y_beak_upper), (x_beak_left, y_beak_middle), (x_beak_right, y_beak_lower)])
+    aalines(screen, (255, 255, 0), True, [(x_beak_right, y_beak_upper),
+                                          (x_beak_left, y_beak_middle),
+                                          (x_beak_right, y_beak_lower)])
+    polygon(screen, (255, 255, 0), [(x_beak_right, y_beak_upper), (x_beak_left, y_beak_middle),
+                                    (x_beak_right, y_beak_lower)])
     line(screen, (0, 0, 0), (x_beak_right, y_beak_middle), (x_beak_left, y_beak_middle), 1)
 
     ellipse(screen, (255, 255, 255),
             (x_torso - torso_size // 2, y_torso - torso_size // 4, torso_size, torso_size // 2))
-    ellipse(screen, (255, 255, 255), (x_neck - neck_size // 2, y_neck - neck_size // 4, neck_size, neck_size // 2))
-    ellipse(screen, (255, 255, 255), (x_head - head_size_x // 2, y_head - head_size_y // 2, head_size_x, head_size_y))
-    ellipse(screen, (0, 0, 0), (x_eye - eye_size_x // 2, y_eye - eye_size_y // 2, eye_size_x, eye_size_y))
-    ellipse(screen, (255, 255, 255), (x_thigh_right - thigh_size // 8, y_thigh_upper, thigh_size // 4, thigh_size))
-    ellipse(screen, (255, 255, 255), (x_thigh_left - thigh_size // 8, y_thigh_upper, thigh_size // 4, thigh_size))
-
+    ellipse(screen, (255, 255, 255),
+            (x_neck - neck_size // 2, y_neck - neck_size // 4, neck_size, neck_size // 2))
+    ellipse(screen, (255, 255, 255),
+            (x_head - head_size_x // 2, y_head - head_size_y // 2, head_size_x, head_size_y))
+    ellipse(screen, (0, 0, 0),
+            (x_eye - eye_size_x // 2, y_eye - eye_size_y // 2, eye_size_x, eye_size_y))
+    ellipse(screen, (255, 255, 255),
+            (x_thigh_right - thigh_size // 8, y_thigh_upper, thigh_size // 4, thigh_size))
+    ellipse(screen, (255, 255, 255),
+            (x_thigh_left - thigh_size // 8, y_thigh_upper, thigh_size // 4, thigh_size))
 
     line(screen, (255, 255, 255), (x_calf_left, y_calf),
          (x_calf_left + rl * calf_size, y_calf + calf_size), thigh_size // 6)
     line(screen, (255, 255, 255), (x_calf_right, y_calf),
          (x_calf_right + rl * calf_size, y_calf + calf_size), thigh_size // 6)
 
-
-    line(screen, (255, 255, 0), (x_claws_right, y_claws), (x_upper_and_lower_claws_right, y_upper_claw), 2)
-    line(screen, (255, 255, 0), (x_claws_right, y_claws), (x_upper_and_lower_claws_right, y_lower_claw), 2)
-    line(screen, (255, 255, 0), (x_claws_right, y_claws), (x_claws_right, y_claws + claw_length), 2)
-
-    line(screen, (255, 255, 0), (x_claws_right, y_claws), (x_claws_right + rl * claw_length, y_claws), 2)
-
-
-    line(screen, (255, 255, 0), (x_claws_left, y_claws), (x_upper_and_lower_claws_left, y_upper_claw), 2)
-    line(screen, (255, 255, 0), (x_claws_left, y_claws), (x_upper_and_lower_claws_left, y_lower_claw), 2)
-    line(screen, (255, 255, 0), (x_claws_left, y_claws), (x_claws_left, y_claws + claw_length), 2)
-
-    line(screen, (255, 255, 0), (x_claws_left, y_claws), (x_claws_left + rl * claw_length, y_claws), 2)
-    
+    line(screen, (255, 255, 0),
+         (x_claws_right, y_claws), (x_upper_and_lower_claws_right, y_upper_claw), 2)
+    line(screen, (255, 255, 0),
+         (x_claws_right, y_claws), (x_upper_and_lower_claws_right, y_lower_claw), 2)
+    line(screen, (255, 255, 0),
+         (x_claws_right, y_claws), (x_claws_right, y_claws + claw_length), 2)
+    line(screen, (255, 255, 0),
+         (x_claws_right, y_claws), (x_claws_right + rl * claw_length, y_claws), 2)
+    line(screen, (255, 255, 0),
+         (x_claws_left, y_claws), (x_upper_and_lower_claws_left, y_upper_claw), 2)
+    line(screen, (255, 255, 0),
+         (x_claws_left, y_claws), (x_upper_and_lower_claws_left, y_lower_claw), 2)
+    line(screen, (255, 255, 0),
+         (x_claws_left, y_claws), (x_claws_left, y_claws + claw_length), 2)
+    line(screen, (255, 255, 0),
+         (x_claws_left, y_claws), (x_claws_left + rl * claw_length, y_claws), 2)
 
 
 background()
@@ -299,4 +327,3 @@ while not finished:
             finished = True
 
 pygame.quit()
-
